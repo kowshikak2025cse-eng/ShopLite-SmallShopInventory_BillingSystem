@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopLite - Login</title>
+
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <div class="logo">
+            🛒
+        </div>
+
+        <h1>SHOPLITE</h1>
+
+        <p class="subtitle">
+            Small Shop Inventory & Billing System
+        </p>
+
+        <h2>Shop Owner Login</h2>
+
+        <p class="description">
+            Login to manage your shop
+        </p>
+
+
+        <form id="loginForm">
+
+            <div class="input-group">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="auth-btn">
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <div id="loginMessage"></div>
+
+
+        <p class="switch-text">
+
+            Don't have an account?
+
+            <a href="signup.html">
+                Create Shop Owner Account
+            </a>
+
+        </p>
+
+
+        <div class="demo-login">
+
+            <strong>Demo Login</strong>
+
+            <span>
+                Email: admin@shoplite.com
+            </span>
+
+            <span>
+                Password: admin123
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="auth.js"></script>
+
+</body>
+</html>

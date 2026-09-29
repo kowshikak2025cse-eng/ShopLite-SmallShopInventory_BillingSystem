@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopLite - Inventory & Billing</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">🛒</div>
+            <div>
+                <h2>ShopLite</h2>
+                <span>Inventory & Billing</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <button class="nav-item active" data-page="dashboard">
+                <span>📊</span>
+                Dashboard
+            </button>
+
+            <button class="nav-item" data-page="products">
+                <span>📦</span>
+                Products
+            </button>
+
+            <button class="nav-item" data-page="billing">
+                <span>🧾</span>
+                Billing
+            </button>
+
+            <button class="nav-item" data-page="bills">
+                <span>📋</span>
+                Bills
+            </button>
+
+            <button class="nav-item" data-page="inventory">
+                <span>🏪</span>
+                Inventory
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+    <div class="admin-box">
+
+        <div class="admin-avatar">
+            👤
+        </div>
+
+        <div>
+
+            <strong id="ownerName">
+                Shop Owner
+            </strong>
+
+            <small>
+                Shop Owner
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="logout()">
+
+        🚪 Logout
+
+    </button>
+
+</div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p id="pageSubtitle">Overview of your shop</p>
+            </div>
+
+            <div class="topbar-right">
+                <div class="live-status">
+                    <span></span>
+                    Live
+                </div>
+                <div class="date-display" id="currentDate"></div>
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboardPage" class="page active-page">
+
+            <div class="welcome-card">
+                <div>
+                    <p class="welcome-small">WELCOME BACK 👋</p>
+                    <h2>Shop Dashboard</h2>
+                    <p>Manage your products, inventory and billing from one place.</p>
+                </div>
+
+                <button class="primary-btn" onclick="showPage('billing')">
+                    + Create New Bill
+                </button>
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">📦</div>
+                    <div>
+                        <span>Total Products</span>
+                        <h2 id="totalProducts">0</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">📊</div>
+                    <div>
+                        <span>Total Stock</span>
+                        <h2 id="totalStock">0</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">🧾</div>
+                    <div>
+                        <span>Total Bills</span>
+                        <h2 id="totalBills">0</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">₹</div>
+                    <div>
+                        <span>Total Sales</span>
+                        <h2 id="totalSales">₹0.00</h2>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Recent Bills</h3>
+                            <p>Latest transactions</p>
+                        </div>
+
+                        <button class="text-btn" onclick="showPage('bills')">
+                            View All
+                        </button>
+                    </div>
+
+                    <div id="recentBills"></div>
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Stock Alert</h3>
+                            <p>Products that need attention</p>
+                        </div>
+                    </div>
+
+                    <div id="stockAlerts"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PRODUCTS ================= -->
+
+        <section id="productsPage" class="page">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Products</h2>
+                    <p>Manage your shop products</p>
+                </div>
+
+                <button class="primary-btn" onclick="openProductModal()">
+                    + Add Product
+                </button>
+
+            </div>
+
+
+            <div class="toolbar">
+
+                <div class="search-box">
+                    🔍
+                    <input
+                        type="text"
+                        id="productSearch"
+                        placeholder="Search products..."
+                        oninput="renderProducts()">
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="productsTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= BILLING ================= -->
+
+        <section id="billingPage" class="page">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Create Bill</h2>
+                    <p>Create a real-time shop bill</p>
+                </div>
+
+            </div>
+
+
+            <div class="billing-layout">
+
+                <!-- BILL INPUT -->
+                <div class="panel billing-form-panel">
+
+                    <div class="panel-title">
+                        <h3>Bill Details</h3>
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Customer Name</label>
+
+                        <input
+                            type="text"
+                            id="customerName"
+                            placeholder="Enter customer name">
+
+                    </div>
+
+
+                    <div class="add-item-box">
+
+                        <h4>Add Product</h4>
+
+                        <div class="form-row">
+
+                            <div class="form-group flex-2">
+
+                                <label>Product</label>
+
+                                <select id="billProduct"></select>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Quantity</label>
+
+                                <input
+                                    type="number"
+                                    id="billQuantity"
+                                    min="1"
+                                    value="1">
+
+                            </div>
+
+                            <div class="form-group button-field">
+
+                                <label>&nbsp;</label>
+
+                                <button
+                                    class="primary-btn"
+                                    onclick="addBillItem()">
+                                    Add
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="selected-items">
+
+                        <div class="panel-title">
+                            <h3>Selected Items</h3>
+                        </div>
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Rate</th>
+                                    <th>Amount</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="billingItemsTable"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="bill-total-box">
+
+                        <span>Total Amount</span>
+
+                        <strong id="billingTotal">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <button
+                        class="create-bill-btn"
+                        onclick="createBill()">
+
+                        🧾 Create Bill
+
+                    </button>
+
+                </div>
+
+
+                <!-- LIVE RECEIPT -->
+                <div class="receipt-container">
+
+                    <div class="receipt" id="liveReceipt">
+
+                        <div class="receipt-header">
+
+                            <div class="receipt-logo">🛒</div>
+
+                            <h2>SHOPLITE</h2>
+
+                            <p>Small Shop Inventory & Billing</p>
+
+                            <div class="receipt-line"></div>
+
+                        </div>
+
+
+                        <div class="receipt-info">
+
+                            <div>
+                                <span>Bill No</span>
+                                <strong id="previewBillNo">DRAFT</strong>
+                            </div>
+
+                            <div>
+                                <span>Date</span>
+                                <strong id="previewDate">--</strong>
+                            </div>
+
+                            <div>
+                                <span>Customer</span>
+                                <strong id="previewCustomer">Walk-in Customer</strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="receipt-line"></div>
+
+
+                        <table class="receipt-table">
+
+                            <thead>
+
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="previewItems">
+
+                            <tr>
+                                <td colspan="4" class="empty-receipt">
+                                    No items added
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+
+                        <div class="receipt-line"></div>
+
+
+                        <div class="receipt-total">
+
+                            <span>TOTAL</span>
+
+                            <strong id="previewTotal">
+                                ₹0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div class="receipt-footer">
+
+                            <p>Thank you for shopping with us!</p>
+
+                            <small>Have a great day 😊</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= BILLS ================= -->
+
+        <section id="billsPage" class="page">
+
+            
+
+
+            <div class="bills-layout">
+
+                <!-- BILL HISTORY -->
+                <div class="panel bill-history-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Bill History</h3>
+                            <p>Select a bill to view receipt</p>
+                        </div>
+
+                    </div>
+
+                    <div id="billHistory"></div>
+
+                </div>
+
+
+                <!-- RECEIPT -->
+                <div class="panel selected-receipt-panel">
+
+                    <div class="receipt-actions">
+
+                        <h3>Bill Receipt</h3>
+
+                        <button
+                            class="secondary-btn"
+                            onclick="printReceipt()">
+
+                            🖨 Print Bill
+
+                        </button>
+
+                    </div>
+
+
+                    <div id="savedReceiptContainer">
+
+                        <div class="no-receipt">
+
+                            <div>🧾</div>
+
+                            <h3>Select a Bill</h3>
+
+                            <p>
+                                Select a bill from the history
+                                to view the complete receipt.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= INVENTORY ================= -->
+
+        <section id="inventoryPage" class="page">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Inventory</h2>
+                    <p>Monitor your current stock</p>
+                </div>
+
+            </div>
+
+
+            <div class="inventory-cards">
+
+                <div class="inventory-summary">
+                    <span>Available Products</span>
+                    <strong id="inventoryProducts">0</strong>
+                </div>
+
+                <div class="inventory-summary">
+                    <span>Total Units</span>
+                    <strong id="inventoryUnits">0</strong>
+                </div>
+
+                <div class="inventory-summary">
+                    <span>Low Stock</span>
+                    <strong id="inventoryLow">0</strong>
+                </div>
+
+                <div class="inventory-summary">
+                    <span>Out of Stock</span>
+                    <strong id="inventoryOut">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="inventoryTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= PRODUCT MODAL ================= -->
+
+<div class="modal-overlay" id="productModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <h2 id="modalTitle">Add Product</h2>
+                <p>Enter product details</p>
+            </div>
+
+            <button class="close-btn" onclick="closeProductModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Product Name</label>
+
+            <input
+                type="text"
+                id="productName"
+                placeholder="Enter product name">
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>Price</label>
+
+                <input
+                    type="number"
+                    id="productPrice"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Quantity</label>
+
+                <input
+                    type="number"
+                    id="productQuantity"
+                    min="0"
+                    placeholder="0">
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary-btn"
+                onclick="closeProductModal()">
+                Cancel
+            </button>
+
+            <button
+                class="primary-btn"
+                onclick="saveProduct()">
+                Save Product
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+
+<script src="index.js"></script>
+
+</body>
+</html>
